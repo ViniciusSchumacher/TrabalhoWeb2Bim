@@ -1,7 +1,6 @@
 package br.unipar.trabweb.models;
 
 import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,6 +24,10 @@ public class Consulta implements Serializable {
 
     @Column(nullable = false, unique = false)
     private LocalDateTime horaConsulta;
+
+    //horaConsultaFim sem setter pois ele obrigatoriamente será sempre uma hora a mais que a horaConsulta.
+    @Column(nullable = false, unique = false)
+    private LocalDateTime horaConsultaFim;
 
     public Consulta() {
     }
@@ -59,5 +62,12 @@ public class Consulta implements Serializable {
 
     public void setHoraConsulta(LocalDateTime horaConsulta) {
         this.horaConsulta = horaConsulta;
+        this.horaConsultaFim = horaConsulta.plusHours(1);  // a consulta tem duração de 1 hora
     }
+
+    public LocalDateTime getHoraConsultaFim() {
+        return horaConsultaFim;
+    }
+
+
 }

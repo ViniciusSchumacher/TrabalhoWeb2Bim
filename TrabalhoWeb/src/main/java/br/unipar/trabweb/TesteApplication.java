@@ -25,7 +25,7 @@ public class TesteApplication {
         return new Docket(DocumentationType.SWAGGER_2)
           .apiInfo(geraInfoSwagger())
           .select()
-          .apis(RequestHandlerSelectors.basePackage("br.unipar.teste"))
+          .apis(RequestHandlerSelectors.basePackage("br.unipar.trabweb"))
           .paths(PathSelectors.any())
           .build();
     }
