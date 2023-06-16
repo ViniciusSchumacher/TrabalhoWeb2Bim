@@ -32,8 +32,8 @@ public class TesteApplication {
 	
 	public ApiInfo geraInfoSwagger() {
 		return new ApiInfo("Sistema Spring Boot - Unipar", 
-				"Sistema Criado No terceiro ano de 2023 - Unipar", 
-				"2.0", null, "Anderson Bosing", null, null);
+				"Trabalho do Segundo Bimestre de Spring Boot/Swagger feito por Vinicius e William.",
+				"1.0", null, "Vinicius Schumacher", null, null);
 	}
 
 }
