@@ -10,7 +10,7 @@ public class MedicoCadastroDTO {
     private String telefone;
     private EnderecoMedico endereco;
 
-    //atributos que não podem ser alterados
+
     private String email;
     private String crm;
     private EspecialidadeENUM especialidade;

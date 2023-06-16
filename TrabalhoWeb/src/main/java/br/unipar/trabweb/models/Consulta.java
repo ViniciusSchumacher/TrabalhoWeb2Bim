@@ -1,5 +1,6 @@
 package br.unipar.trabweb.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Consulta implements Serializable {
 
     @ManyToOne
     @JoinColumn(nullable = false, unique = false)
+    @JsonIgnore
     private Medico medicoConsulta;
 
     @Column(nullable = false, unique = false)

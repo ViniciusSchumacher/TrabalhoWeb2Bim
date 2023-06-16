@@ -1,5 +1,6 @@
 package br.unipar.trabweb.services;
 
+import br.unipar.trabweb.exceptions.CpfDuplicadoException;
 import br.unipar.trabweb.model.dto.PacienteDTO;
 import br.unipar.trabweb.models.Paciente;
 import br.unipar.trabweb.repositories.PacienteRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +22,13 @@ public class PacienteService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    public Paciente save(Paciente paciente){
+    public Paciente save(Paciente paciente) {
+        Optional<Paciente> existingPaciente = pacienteRepository.findByCpf(paciente.getCpf());
+
+        if (existingPaciente.isPresent()) {
+            throw new CpfDuplicadoException("Um paciente com o CPF " + paciente.getCpf() + " já existe.");
+        }
+
         return pacienteRepository.save(paciente);
     }
 
@@ -59,7 +67,5 @@ public class PacienteService {
     public Paciente updateStatusPaciente(Paciente paciente) {
         return pacienteRepository.save(paciente);
     }
-
-
 
 }

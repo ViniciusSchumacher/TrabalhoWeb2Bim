@@ -47,7 +47,7 @@ public class ConsultaService {
             List<Medico> medicosDisponiveis = medicoRepository.findAvailableMedicos(consulta.getHoraConsulta());
 
             if (medicosDisponiveis.isEmpty()) {
-                throw new NoAvailableMedicosException("Não há médicos disponíveis no momento.");
+                throw new MedicosIndisponiveisException("Não há médicos disponíveis no momento.");
             }
 
             // Escolha um médico aleatoriamente da lista de médicos disponíveis
@@ -60,16 +60,16 @@ public class ConsultaService {
         // Verifica se o médico e o paciente estão ativos
         Long doctorId = consulta.getMedicoConsulta().getId();
         Medico actualDoctor = medicoRepository.findById(doctorId)
-                .orElseThrow(() -> new NotFoundException("Médico não encontrado"));
+                .orElseThrow(() -> new MedicoPacienteNaoEncontradoException("Médico não encontrado"));
 
         // Fetch the patient from the database
         Long patientId = consulta.getPacienteConsulta().getId();
         Paciente actualPatient = pacienteRepository.findById(patientId)
-                .orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
+                .orElseThrow(() -> new MedicoPacienteNaoEncontradoException("Paciente não encontrado"));
 
         // Verifica se o médico e o paciente estão ativos
         if (!actualDoctor.isAtivo() || !actualPatient.isAtivo()) {
-            throw new InactiveDoctorException("Médico ou Paciente inativo, não é possível agendar a consulta");
+            throw new MedicoPacienteInativoException("Médico ou Paciente inativo, não é possível agendar a consulta");
         }
 
         // Verifica se a data e hora da consulta estão dentro dos limites permitidos
@@ -79,7 +79,7 @@ public class ConsultaService {
 
         // Consultas são permitidas de segunda a sábado (DayOfWeek de 1 a 6) e das 7:00 às 19:00
         if (diaDaSemana.getValue() == 7 || horaDoDia < 7 || horaDoDia >= 19) {
-            throw new InvalidConsultaTimeException("Consultas só podem ser agendadas de segunda a sábado, das 07:00 até às 19:00");
+            throw new ConsultaHoraInvalidaException("Consultas só podem ser agendadas de segunda a sábado, das 07:00 até às 19:00");
         }
 
         // Check if the consulta is not too soon
@@ -87,7 +87,7 @@ public class ConsultaService {
         Duration duration = Duration.between(now, consulta.getHoraConsulta());
 
         if (duration.toMinutes() < 30) {
-            throw new ConsultationTooSoonException("A consulta não pode ser marcada com menos de 30 minutos de antecedência.");
+            throw new ConsultaMuitoCedoException("A consulta não pode ser marcada com menos de 30 minutos de antecedência.");
         }
 
         // Check if the doctor is already booked at that time
@@ -96,7 +96,7 @@ public class ConsultaService {
                 consulta.getMedicoConsulta(), consultaEnd, consulta.getHoraConsulta());
 
         if (!overlappingConsultas.isEmpty()) {
-            throw new DoctorUnavailableException("O médico já tem uma consulta marcada nesse horário.");
+            throw new MedicoEmConsultaException("O médico já tem uma consulta marcada nesse horário.");
         }
 
         // Verifica se o paciente já tem uma consulta no mesmo dia

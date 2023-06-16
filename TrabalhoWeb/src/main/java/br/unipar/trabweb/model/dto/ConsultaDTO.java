@@ -9,7 +9,7 @@ public class ConsultaDTO {
     private Long pacienteId;
     private LocalDateTime horaConsulta;
 
-    // Getters and setters
+
     public Long getMedicoId() {
         return medicoId;
     }

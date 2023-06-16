@@ -9,7 +9,7 @@ public class PacienteCadastroDTO {
     private String telefone;
     private EnderecoPaciente endereco;
 
-    //atributos que não podem ser alterados
+
     private String email;
     private String cpf;
 
@@ -53,6 +53,4 @@ public class PacienteCadastroDTO {
         this.cpf = cpf;
     }
 
-    // getters and setters
-    // ...
 }

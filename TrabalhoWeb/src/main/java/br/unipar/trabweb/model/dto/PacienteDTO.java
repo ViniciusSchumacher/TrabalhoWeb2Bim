@@ -7,7 +7,7 @@ public class PacienteDTO {
     private String email;
     private String cpf;
 
-    //Getters and setters
+
     public String getNome() {
         return nome;
     }

@@ -3,6 +3,8 @@ package br.unipar.trabweb.repositories;
 import br.unipar.trabweb.models.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
-    //Aqui você pode adicionar consultas customizadas se precisar
+    Optional<Paciente> findByCpf(String cpf);
 }
